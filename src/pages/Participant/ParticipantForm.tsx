@@ -1,4 +1,5 @@
 import './Participant.css'
+import ParticipantList from './ParticipantList'
 
 type Props = {
   value: string
@@ -25,28 +26,21 @@ const ParticipantForm = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="e.g., Alice"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              onAdd()
+            }
+          }}
         />
         <button onClick={onAdd}>Add</button>
       </div>
 
-      {participantData.length > 0 && <label>List Participant</label>}
-      {participantData.length > 0 && (
-        <span className="person-row">
-          {participantData.map((person, i) => (
-            <span className="person-item" key={i}>
-              <p>{person}</p>
-
-              <button
-                className="remove-button"
-                onClick={() => onRemove(person)}
-                title="Remove participant"
-              >
-                x
-              </button>
-            </span>
-          ))}
-        </span>
-      )}
+      <ParticipantList
+        participantData={participantData}
+        onRemove={onRemove}
+        isCanRemove
+      />
     </>
   )
 }

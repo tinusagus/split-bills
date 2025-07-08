@@ -1,15 +1,20 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { showToast } from '../../components/Notification/Notification'
 import { useBillStore } from '../../store/billStore'
 import ParticipantForm from './ParticipantForm'
-import './Participant.css'
 import DatePicker from '../../components/DatePicker/DatePicker'
+import './Participant.css'
+import { PAGE_ENUM } from '../../utils/helper'
 
 const Participant = () => {
   const { bill, setBill } = useBillStore()
   const [participantName, setParticipantName] = useState('')
+  const navigate = useNavigate()
 
-  const createdAt = bill.createdAt ? new Date(bill.createdAt) : new Date()
+  const createdAt = bill.createdAt
+    ? new Date(bill.createdAt)
+    : new Date().toISOString()
 
   const handleAddParticipant = () => {
     if (participantName.trim() === '') {
@@ -34,15 +39,16 @@ const Participant = () => {
   }
 
   const handleSubmitParticipant = () => {
-    console.log('bill', bill)
-
     if (bill.participants.length === 0 || !bill.title || !bill.createdAt) {
       showToast({
         text: 'Please fill in all fields before submitting.',
         type: 'warning',
       })
+
       return
     }
+
+    return navigate(PAGE_ENUM.BILL_CREATE)
   }
 
   return (
@@ -61,7 +67,7 @@ const Participant = () => {
         onChange={(date) => {
           setBill({
             ...bill,
-            createdAt: date.toDateString(),
+            createdAt: date.toISOString(),
           })
         }}
       />

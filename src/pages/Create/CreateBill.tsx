@@ -1,16 +1,17 @@
 // import { addDoc, collection } from 'firebase/firestore'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useBillStore, type ItemInput } from '../../store/billStore'
 // import { db } from '../../utils/firebase'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { showToast } from '../../components/Notification/Notification'
 import InputNumber from '../../components/Input/InputNumber'
 import { formatCurrency } from '../../utils/helper'
 import './CreateBill.css'
+import ParticipantList from '../Participant/ParticipantList'
 
 function CreateBill() {
   const { bill, setBill } = useBillStore()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const [item, setItem] = useState<ItemInput>({
     name: '',
@@ -20,9 +21,14 @@ function CreateBill() {
     sharedBy: {},
   })
 
-  const toggleDark = () => {
-    document.body.classList.toggle('dark')
-  }
+  useEffect(() => {
+    const isEmpty =
+      !bill.title || !bill.createdAt || bill.participants.length === 0
+
+    if (isEmpty) {
+      navigate('/', { replace: true }) // 👈 redirect to home
+    }
+  }, [bill, navigate])
 
   const handleAddItem = () => {
     if (
@@ -79,15 +85,9 @@ function CreateBill() {
 
   return (
     <div className="create-bill-container">
-      <button onClick={toggleDark}>Toggle Dark Mode</button>
+      <label>{bill.title}</label>
 
-      <label>Bill Title</label>
-      <input
-        type="text"
-        value={bill.title}
-        onChange={(e) => setBill({ ...bill, title: e.target.value })}
-        placeholder="e.g., Dinner with friends"
-      />
+      <ParticipantList participantData={bill.participants} />
 
       {bill.participants.length > 0 && (
         <>
@@ -112,29 +112,6 @@ function CreateBill() {
               </option>
             ))}
           </select>
-
-          <div>
-            <label>Who shared this item?</label>
-            {bill.participants.map((p) => (
-              <div key={p} className="shared-by-row">
-                <label>
-                  <input
-                    type="number"
-                    min={0}
-                    value={item.sharedBy?.[p] || 0}
-                    onChange={(e) => {
-                      const qty = Number(e.target.value)
-                      setItem((prev) => ({
-                        ...prev,
-                        sharedBy: { ...prev.sharedBy, [p]: qty },
-                      }))
-                    }}
-                  />
-                  {p}
-                </label>
-              </div>
-            ))}
-          </div>
 
           <button onClick={handleAddItem}>Add Item</button>
 

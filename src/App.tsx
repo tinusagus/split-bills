@@ -1,17 +1,21 @@
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Participant from './pages/Participant/Participant'
+import Participant from './pages/Participant/Home'
 import CreateBill from './pages/Create/CreateBill'
 import BillDetail from './pages/Detail/BillDetail'
+import { PAGE_ENUM } from './utils/helper'
+import ThemeToggle from './components/ThemeToggle/ThemeToggle'
 
 function App() {
   return (
     <>
       <ToastContainer newestOnTop />
+      <ThemeToggle />
+
       <Routes>
-        <Route path="/" element={<Participant />} />
-        <Route path="/bill/create" element={<CreateBill />} />
-        <Route path="/bill/:id" element={<BillDetail />} />
+        <Route path={PAGE_ENUM.HOME} element={<Participant />} />
+        <Route path={PAGE_ENUM.BILL_CREATE} element={<CreateBill />} />
+        <Route path={PAGE_ENUM.BILL_DETAIL} element={<BillDetail />} />
       </Routes>
     </>
   )

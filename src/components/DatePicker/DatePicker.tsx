@@ -3,7 +3,7 @@ import 'flatpickr/dist/themes/dark.css'
 import './DatePicker.css'
 
 interface Props {
-  date: Date | undefined
+  date: Date | string
   onChange: (value: Date) => void
 }
 

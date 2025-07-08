@@ -23,10 +23,16 @@ type Store = {
 }
 
 export const useBillStore = create<Store>((set) => ({
+  // bill: {
+  //   title: '',
+  //   createdAt: new Date().toISOString(),
+  //   participants: [],
+  //   items: [],
+  // },
   bill: {
-    title: '',
-    createdAt: '',
-    participants: [],
+    title: 'Kopi Kulo',
+    createdAt: new Date().toISOString(),
+    participants: ['Budi', 'Benu', 'Aldi'],
     items: [],
   },
   setBill: (bill) => set({ bill }),
