@@ -1,29 +1,33 @@
+import type { Participant } from '../../store/billStore'
 import './Participant.css'
 
 type Props = {
-  onRemove?: (value: string) => void
-  participantData: string[]
+  list: Participant[]
   isCanRemove?: boolean
+  isNeedTitle?: boolean
+  onRemove: (id: string) => void
 }
 
 const ParticipantList = ({
-  onRemove,
-  participantData,
+  list,
+  isNeedTitle = true,
   isCanRemove = false,
+  onRemove,
 }: Props) => {
   return (
     <>
-      {participantData.length > 0 && <label>List Participant</label>}
-      {participantData.length > 0 && (
+      {list.length > 0 && isNeedTitle && <label>List Participant</label>}
+
+      {list.length > 0 && (
         <span className="person-row">
-          {participantData.map((person, i) => (
+          {list.map((participant, i) => (
             <span className="person-item" key={i}>
-              <p>{person}</p>
+              <p>{participant.name}</p>
 
               {isCanRemove && (
                 <button
                   className="remove-button"
-                  onClick={() => onRemove?.(person)}
+                  onClick={() => onRemove(participant.id)}
                   title="Remove participant"
                 >
                   x

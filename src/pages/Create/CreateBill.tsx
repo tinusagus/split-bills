@@ -4,21 +4,24 @@ import { useBillStore, type ItemInput } from '../../store/billStore'
 // import { db } from '../../utils/firebase'
 import { useNavigate } from 'react-router-dom'
 import { showToast } from '../../components/Notification/Notification'
-import InputNumber from '../../components/Input/InputNumber'
-import { formatCurrency } from '../../utils/helper'
-import './CreateBill.css'
 import ParticipantList from '../Participant/ParticipantList'
+import './CreateBill.css'
+import InputPrice from '../../components/Input/InputPrice'
+import InputList from '../../components/Input/InputList'
+import ListItem from './Item/ListItem'
 
 function CreateBill() {
   const { bill, setBill } = useBillStore()
   const navigate = useNavigate()
+
+  const listParticipants = bill.participants
 
   const [item, setItem] = useState<ItemInput>({
     name: '',
     amount: '',
     paidBy: '',
     quantity: 1,
-    sharedBy: {},
+    sharedWith: [],
   })
 
   useEffect(() => {
@@ -31,13 +34,7 @@ function CreateBill() {
   }, [bill, navigate])
 
   const handleAddItem = () => {
-    if (
-      !item.name ||
-      !item.amount ||
-      !item.paidBy
-      // !item.sharedBy ||
-      // Object.values(item.sharedBy).every((qty) => qty <= 0)
-    ) {
+    if (!item.name || !item.amount || !item.paidBy) {
       showToast({
         text: 'Please fill in all item fields.',
         type: 'warning',
@@ -45,12 +42,30 @@ function CreateBill() {
       return
     }
 
+    const cleanedItem: ItemInput = {
+      ...item,
+      amount: String(Number(item.amount)), // Ensure numeric string
+      quantity: item.quantity || 1,
+      sharedWith: [], // start empty (Option 1 flow)
+    }
+
     setBill({
       ...bill,
-      items: [...bill.items, item],
+      items: [...bill.items, cleanedItem],
     })
 
-    setItem({ name: '', amount: '', paidBy: '', quantity: 1, sharedBy: {} })
+    setItem({
+      name: '',
+      amount: '',
+      paidBy: '',
+      quantity: 1,
+      sharedWith: [], // reset cleanly
+    })
+
+    showToast({
+      text: 'Item added successfully!',
+      type: 'success',
+    })
   }
 
   const handleRemoveItem = (index: number) => {
@@ -74,7 +89,6 @@ function CreateBill() {
 
     // const docRef = await addDoc(collection(db, 'bills'), bill)
     // navigate(`/bill/${docRef.id}`)
-    // navigate(`/bill/${docRef.id}`)
 
     console.log('Bill submitted:', bill)
   }
@@ -83,11 +97,45 @@ function CreateBill() {
     setItem({ ...item, amount: value })
   }
 
+  const handleUpdateItem = (index: number, updatedItem: ItemInput) => {
+    const newItems = [...bill.items]
+    newItems[index] = updatedItem
+    setBill({ ...bill, items: newItems })
+  }
+
+  const handleRemoveParticipant = (id: string) => {
+    // Remove from participants list
+    const newParticipants = bill.participants.filter((p) => p.id !== id)
+
+    const newItems = bill.items
+      .map((item) => {
+        // Remove participant from sharedWith array
+        const newSharedWith = item.sharedWith.filter(
+          (entry) => entry.participantId !== id
+        )
+
+        return {
+          ...item,
+          sharedWith: newSharedWith,
+        }
+      })
+      .filter((item) => item.paidBy !== id) // Remove if the participant paid for the item
+
+    setBill({
+      ...bill,
+      participants: newParticipants,
+      items: newItems,
+    })
+  }
+
   return (
     <div className="create-bill-container">
       <label>{bill.title}</label>
 
-      <ParticipantList participantData={bill.participants} />
+      <ParticipantList
+        list={listParticipants}
+        onRemove={handleRemoveParticipant}
+      />
 
       {bill.participants.length > 0 && (
         <>
@@ -99,44 +147,22 @@ function CreateBill() {
             placeholder="Item name (e.g., Pizza)"
           />
 
-          <InputNumber amount={item.amount} onChange={handleChangeItemAmount} />
+          <InputPrice amount={item.amount} onChange={handleChangeItemAmount} />
 
-          <select
+          <InputList
             value={item.paidBy}
-            onChange={(e) => setItem({ ...item, paidBy: e.target.value })}
-          >
-            <option value="">Who paid?</option>
-            {bill.participants.map((p, i) => (
-              <option key={i} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
+            list={bill.participants}
+            onChange={(e) => setItem({ ...item, paidBy: e })}
+          />
 
           <button onClick={handleAddItem}>Add Item</button>
 
-          <ul className="item-list">
-            {bill.items.map((item, i) => (
-              <li key={i} className="item-row">
-                <div className="item-name">
-                  <strong>{item.name}</strong> x {item.quantity}
-                </div>
-                <div className="item-meta">
-                  <span>{formatCurrency(item.amount)}</span>
-
-                  <span className="item-paidby">
-                    paid by <strong>{item.paidBy}</strong>
-                  </span>
-                </div>
-                <button
-                  className="remove-btn"
-                  onClick={() => handleRemoveItem(i)}
-                >
-                  ×
-                </button>
-              </li>
-            ))}
-          </ul>
+          <ListItem
+            listParticipants={bill.participants}
+            items={bill.items}
+            onRemove={handleRemoveItem}
+            onUpdate={handleUpdateItem}
+          />
 
           <button className="submit-button" onClick={handleSubmit}>
             Save and Share

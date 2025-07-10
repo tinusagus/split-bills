@@ -1,20 +1,21 @@
+import type { Participant } from '../../store/billStore'
 import './Participant.css'
 import ParticipantList from './ParticipantList'
 
 type Props = {
   value: string
+  listParticipants: Participant[]
   onAdd: () => void
-  onRemove: (value: string) => void
+  onRemove: (name: string) => void
   onChange: (value: string) => void
-  participantData: string[]
 }
 
 const ParticipantForm = ({
   value,
+  listParticipants,
   onAdd,
   onRemove,
   onChange,
-  participantData,
 }: Props) => {
   return (
     <>
@@ -37,7 +38,7 @@ const ParticipantForm = ({
       </div>
 
       <ParticipantList
-        participantData={participantData}
+        list={listParticipants}
         onRemove={onRemove}
         isCanRemove
       />

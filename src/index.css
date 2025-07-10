@@ -136,4 +136,10 @@ body.dark {
   ul {
     color: #ccc;
   }
+
+  strong,
+  span,
+  p {
+    color: white;
+  }
 }

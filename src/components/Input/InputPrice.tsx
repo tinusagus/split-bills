@@ -1,13 +1,18 @@
+import { formatCurrency } from '../../utils/helper'
+
 interface Props {
-  number: number | null
-  onChange: (value: number) => void
+  amount: string | null
+  onChange: (value: string) => void
 }
 
-const InputNumber = ({ number, onChange }: Props) => {
+const InputPrice = ({ amount, onChange }: Props) => {
+  const cleaned = amount?.replace(/^0+/, '') || '0'
+
+  const formatted = formatCurrency(cleaned)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/\D/g, '') // Only digits
-
-    onChange(Number(raw))
+    onChange(raw)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -21,12 +26,12 @@ const InputNumber = ({ number, onChange }: Props) => {
     <input
       type="text"
       inputMode="numeric"
-      value={number?.toString() || ''}
-      placeholder="Item quantity (e.g., 5)"
+      value={formatted}
+      placeholder="Item price (e.g., Rp10.000,00)"
       onKeyDown={handleKeyDown}
       onChange={handleChange}
     />
   )
 }
 
-export default InputNumber
+export default InputPrice

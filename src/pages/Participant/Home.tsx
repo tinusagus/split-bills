@@ -25,17 +25,16 @@ const Participant = () => {
       return
     }
 
+    const newParticipant = {
+      id: Date.now().toString(),
+      name: participantName.trim(),
+    }
+
     setBill({
       ...bill,
-      participants: [...bill.participants, participantName.trim()],
+      participants: [...bill.participants, newParticipant],
     })
     setParticipantName('')
-  }
-
-  const handleRemoveParticipant = (name: string) => {
-    const newParticipants = bill.participants.filter((p) => p !== name)
-    const newItems = bill.items.filter((item) => item.paidBy !== name)
-    setBill({ ...bill, participants: newParticipants, items: newItems })
   }
 
   const handleSubmitParticipant = () => {
@@ -49,6 +48,29 @@ const Participant = () => {
     }
 
     return navigate(PAGE_ENUM.BILL_CREATE)
+  }
+
+  const handleRemoveParticipant = (id: string) => {
+    // Remove from participants list
+    const newParticipants = bill.participants.filter((p) => p.id !== id)
+
+    // Remove from items:
+    const newItems = bill.items
+      .map((item) => {
+        const { [id]: _, ...newSharedWith } = item.sharedWith
+
+        return {
+          ...item,
+          sharedWith: newSharedWith,
+        }
+      })
+      .filter((item) => item.paidBy !== id) // Remove if paidBy is the removed person
+
+    setBill({
+      ...bill,
+      participants: newParticipants,
+      items: newItems,
+    })
   }
 
   return (
@@ -73,11 +95,11 @@ const Participant = () => {
       />
 
       <ParticipantForm
+        listParticipants={bill.participants}
         onAdd={handleAddParticipant}
-        onRemove={handleRemoveParticipant}
         onChange={setParticipantName}
+        onRemove={handleRemoveParticipant}
         value={participantName}
-        participantData={bill.participants}
       />
 
       <button className="add-items" onClick={handleSubmitParticipant}>
