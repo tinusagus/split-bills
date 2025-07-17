@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { showToast } from '../../components/Notification/Notification'
-import { useBillStore } from '../../store/billStore'
-import ParticipantForm from './ParticipantForm'
-import DatePicker from '../../components/DatePicker/DatePicker'
-import './Participant.css'
-import { PAGE_ENUM } from '../../utils/helper'
+import { showToast } from '@/components/Notification/Notification'
+import { useBillStore } from '@/store/billStore'
+import DatePicker from '@/components/DatePicker/DatePicker'
+import { PAGE_ENUM } from '@/utils/helper'
+import ParticipantForm from '@/components/Participant/ParticipantForm'
+import './Home.css'
 
 const Participant = () => {
   const { bill, setBill } = useBillStore()
@@ -54,17 +54,19 @@ const Participant = () => {
     // Remove from participants list
     const newParticipants = bill.participants.filter((p) => p.id !== id)
 
-    // Remove from items:
+    // Hapus participant dari sharedWith dan juga dari paidBy
     const newItems = bill.items
       .map((item) => {
-        const { [id]: _, ...newSharedWith } = item.sharedWith
+        const newSharedWith = item.sharedWith.filter(
+          (entry) => entry.participantId !== id
+        )
 
         return {
           ...item,
           sharedWith: newSharedWith,
         }
       })
-      .filter((item) => item.paidBy !== id) // Remove if paidBy is the removed person
+      .filter((item) => item.paidBy !== id)
 
     setBill({
       ...bill,
@@ -74,7 +76,7 @@ const Participant = () => {
   }
 
   return (
-    <div className="participant-container">
+    <div className="home-container">
       <label>Bill Title</label>
       <input
         type="text"

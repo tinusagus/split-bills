@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Participant from './pages/Participant/Home'
+import Participant from './pages/Home/Home'
 import CreateBill from './pages/Create/CreateBill'
 import BillDetail from './pages/Detail/BillDetail'
 import { PAGE_ENUM } from './utils/helper'

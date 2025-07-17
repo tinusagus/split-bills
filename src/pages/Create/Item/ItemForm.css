@@ -1,0 +1,79 @@
+.item-form {
+  background-color: #1e1e1e;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #2e2e2e;
+  max-width: 480px;
+  margin: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.item-form h2 {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+
+.item-form input,
+.item-form select {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 6px;
+  color: #ffffff;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.item-form input:focus,
+.item-form select:focus {
+  border-color: #4f46e5; /* Indigo */
+  outline: none;
+}
+
+.item-form button {
+  background-color: #4f46e5;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.item-form button:hover {
+  background-color: #3730a3;
+}
+
+.shared-with-section {
+  display: flex;
+  flex-direction: column;
+
+  .shared-checkbox-list {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    text-align: left;
+    align-items: start;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+  }
+
+  label,
+  input {
+    padding: 0;
+    margin: 0;
+  }
+}

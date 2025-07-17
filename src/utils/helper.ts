@@ -10,3 +10,16 @@ export const PAGE_ENUM = {
   BILL_CREATE: 'bill/create',
   BILL_DETAIL: 'bill/:id',
 }
+
+export const formatDate = (dateString: string): string => {
+  if (!dateString) return ''
+
+  return new Date(dateString).toLocaleString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}

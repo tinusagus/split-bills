@@ -1,0 +1,17 @@
+.home-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+  text-align: left;
+}
+
+body.dark {
+  .home-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+}

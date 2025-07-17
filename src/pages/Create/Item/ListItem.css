@@ -1,134 +1,52 @@
-.list-item-container {
-  margin-top: 26px;
-}
-
-.item-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 1rem;
-}
-
-.item-row {
-  display: grid;
-  grid-template-columns: 1fr auto auto auto;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #545454;
-}
-
-.item-name {
-  color: black;
-}
-
-.item-meta {
+.list-items {
   display: flex;
   flex-direction: column;
-  text-align: right;
-  font-size: 0.85rem;
-  color: #555;
+  gap: 0.75rem;
 }
 
-.item-paidby {
-  font-style: italic;
-  opacity: 0.7;
-}
-
-body.dark {
-  .remove-button {
-    padding: 0.25rem 0.25rem;
-    background-color: orange;
-  }
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 8px;
-  padding: 0.5rem;
-}
-.icon-btn:hover svg {
-  color: #ff9800; /* or any color you like */
-}
-
-.item-shared {
-  margin-top: 0.5rem;
-}
-
-.shared-warning {
-  color: #e67300;
-  font-size: 0.8rem;
-  font-style: italic;
-  margin-top: 4px;
-}
-
-.shared-title {
-  margin: 0;
+.item-card {
+  background-color: #2c2c2c;
+  padding: 1rem;
+  border-radius: 8px;
   font-size: 0.9rem;
-  color: #ccc;
-  font-weight: 500;
-}
-
-.shared-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.25rem 0 0;
-}
-
-.shared-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 4px 8px;
-  border-radius: 6px;
-  margin-bottom: 4px;
 }
 
-.shared-name {
-  font-size: 0.9rem;
-  color: #eee;
+.item-card > div:first-child {
+  flex: 1;
+  color: #f3f4f6;
 }
 
-.shared-remove {
-  background: #444;
-  color: #fff;
-  border: none;
+.item-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.item-actions button {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
   border-radius: 4px;
-  padding: 2px 6px;
+  border: none;
   cursor: pointer;
-  transition: background 0.2s ease;
+  font-weight: 500;
 }
 
-.shared-remove:hover {
-  background: #c0392b;
-}
-
-.item-name {
-  font-weight: 600;
+.item-actions .edit {
+  background-color: #3b82f6;
   color: white;
 }
 
-@media (max-width: 600px) {
-  .item-row {
-    grid-template-columns: 1fr;
-    text-align: left;
-  }
+.item-actions .remove {
+  background-color: #ef4444;
+  color: white;
+}
 
-  .item-meta,
-  .item-paidby,
-  .item-action {
-    margin-top: 0.25rem;
-  }
+.item-actions .edit:hover {
+  background-color: #2563eb;
+}
 
-  .item-action {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .item-edit-actions {
-    display: flex;
-    gap: 8px;
-  }
+.item-actions .remove:hover {
+  background-color: #dc2626;
 }

@@ -6,17 +6,106 @@
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   font-family: 'Segoe UI', sans-serif;
+  color: #111;
+}
+
+.bill-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.bill-date {
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: lightyellow;
+}
+
+.section-heading {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.participant-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.participant-pill {
+  background-color: #eee;
+  color: #333;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.add-item-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0;
+}
+
+.add-item-button {
+  background: #facc15;
+  color: #000;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-item-button:hover {
+  background: #eab308;
+}
+
+button {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+body.dark .create-bill-container {
+  background-color: #1e1e1e;
+  color: #f3f3f3;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .participant-pill {
+  background-color: #333;
+  color: #fff;
+}
+
+.save-button {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #4ade80;
+  color: #000;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #22c55e;
 }
 
 .submit-button {
-  margin-top: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 1rem;
   width: 100%;
-  font-size: 1rem;
-}
-
-body.dark {
-  .create-bill-container {
-    background-color: #1e1e1e;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-  }
 }
